@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/public/style.css">
+    <meta charset="utf-8">
+    <title>Просмотр всех сообщений</title>
+  </head>
+  <body>
+    <header>
+      <div class="main_menu">
+          <a class=" menu_position menu " href="report">Отправить сообщение</a>
+          <a class="menu menu_position " href="main">Регистрация</a>
+          <a class="menu menu_position menu_now" href="message">Просмотр всех сообщений</a>
+      </div>
+    </header>
+
+
+      <form class="decor">
+  <div class="form-left-decoration"></div>
+  <div class="form-right-decoration"></div>
+  <div class="circle"></div>
+  <div class="form-inner">
+    <button  onClick="window.location.reload();">Обновить данные</button>
+  <h3>Сообщения</h3>
+  <table  width=100% border=1> <tr><td colspan=3> Все комментарии</td>
+    <tr> <th>Логин</th> <th>Комментарий</th> <th>Фото</th>
+      <% for(var i=0;i < dataRes.length;i++) {%>
+      <tr><th><%= dataRes[i].login %></th> <th ><%= dataRes[i].comment %></th><th><img src="/report/<%= dataRes[i].foto %>"  width="100%" height="100%"></th>
+        <% } %>
+  </table>
+  </div>
+  </form>
+
+
+  </body>
+</html>
