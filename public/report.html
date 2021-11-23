@@ -20,12 +20,40 @@
   <div class="circle"></div>
   <div class="form-inner">
   <h3>Отправка сообщения</h3>
-  <input type="login" name="login" placeholder="email">
-  <textarea  name="comment" placeholder="Комментарий"></textarea>
-  <input type="file" name="foto">
-  <input type="submit" value="Отправить" onclick="">
+  <input type="email" name="login"id="login" placeholder="email">
+  <textarea  name="comment"id="comment" placeholder="Комментарий"></textarea>
+  <input type="file"id="foto" name="foto">
+  <input type="submit" value="Отправить" onclick=" return checkForm()">
   </div>
   </form>
       </div>
   </body>
+<script>
+  function checkForm()
+  {
+  // document.getElementById("empt").value == ''
+    if (document.getElementById("login").value.trim() == '')
+  {
+    alert ('Заполните поле почты');
+    return false;
+  }
+  else if (document.getElementById("comment").value.trim() == '')
+  {
+    alert ('Заполните поле комментария');
+    return false;
+  }
+  else if (document.getElementById("foto").value.trim() == '')
+  {
+    alert ('Прикрепите файл!');
+    return false;
+  }
+  else {
+    if ( !document.getElementById("login").checkValidity()) {
+        alert ('Неккоректно заполнен email! Нужен знак @');
+        return false;
+      }
+      alert ('Регистрация завершена!');
+  }
+}
+</script>
 </html>
