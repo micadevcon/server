@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/public/style.css">
+    <meta charset="utf-8">
+    <title>Просмотр всех сообщений</title>
+  </head>
+  <body>
+
+
+
+      <form class="decor1">
+  <div class="form-left-decoration"></div>
+  <div class="form-right-decoration"></div>
+  <div class="circle"></div>
+  <div class="form-inner">
+  <h3>Авторизация</h3>
+    <div>
+      Приветствую <%= result[0].name %>!
+      <img src="/report/<%= result[0].file %>"  width="100px" height="100px">
+
+    </div>
+
+  </div>
+  </form>
+
+
+  </body>
+</html>

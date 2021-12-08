@@ -25,6 +25,11 @@ const upload = multer({dest:"report"});
 //массив объектов, хранящий информацию о записях в БД
 var dataRes= Array();
 
+
+
+
+
+
 //основная функция, отвечающая за работу сервера
 function createServer(){
 
@@ -40,7 +45,29 @@ function createServer(){
       readMessage();
       response.render('\message', {dataRes:  dataRes});
   });
+
+
+app.get("/result", function (request, response) {
+    response.sendFile(__dirname + "/public/result.html");
+});
+app.get("/login", function (request, response) {
+    response.sendFile(__dirname + "/public/login.html");
+});
 // Получение данных с форм
+app.post("/login",urlencodedParser, function (request, response,next) {
+    if(!request.body) return response.sendStatus(400);
+
+          let login=request.body.login;
+          let password=request.body.password;
+          console.log(request.body);
+          checkPassword(login,password,response);
+
+
+          //  else
+            // console.log(data1);
+          //addMessage(login,comment,foto.filename);
+  //  response.sendFile(__dirname + "/public/login.html");
+      });
   app.post("/report", upload.single("foto"), function (request, response,next) {
       if(!request.body) return response.sendStatus(400);
 
@@ -64,6 +91,7 @@ function createServer(){
       response.sendFile(__dirname + "/public/main.html");
   });
 }
+
 //добавление нового пользователя
 function addUser(login,password,email,number,name,file){
   //шифрование пароля
@@ -89,6 +117,7 @@ function addUser(login,password,email,number,name,file){
         return console.error(err.message);
     });
 }
+
 //добавление данных сообщения в БД
 function addMessage(login,comment,foto){
 
@@ -111,6 +140,72 @@ function addMessage(login,comment,foto){
       return console.error(err.message);
   });
 }
+
+//Чтение проверки пароля
+//checkPassword = async function(req, res)
+function checkPassword (login,password,response)
+{
+  //let Datamessage= Array();
+  //let SecurityPassword = bcrypt.hashSync(password, salt);
+  let CheckVar;
+    const db = new sqlite3.Database('base.db', sqlite3.OPEN_READONLY, (err) =>
+    {
+      if(err)
+          return console.error(err.message);
+      console.log("подключение к базе установлено");
+
+    } );
+// const R="'\'"+login+"\'";
+    const sql=`SELECT * FROM data where login =\'`+login+`\'`;
+          //console.log(login +"=="+ SecurityPassword);
+    db.all(sql, [], (err,result) =>
+    {
+      if (err)
+          return console.error(err.message);
+    console.log("Запрос на прочтение данных выполнен");
+    console.log("ОТВЕТ"+result[0].login);
+
+      CheckVar = bcrypt.compareSync(password, result[0].password);
+      if(CheckVar)
+      {
+        response.render('\mesult', {result:  result});
+      }
+      else
+      {
+        response.sendFile(__dirname + "/public/login.html");
+      }
+
+  // res is true as the original password is the same
+  // res == true
+// });
+      //Datamessage=result;
+
+
+    //Получение всех записей из БД
+    // for(var i=0;i < result.length;i++)
+    // {
+    //   //dataRes-глобальная переменная
+    //   Datamessage[i]=result[i];
+    // }
+    // for (var i = 0; i < Datamessage.length; i++)
+    // {
+    //   if (Datamessage[i].login && Datamessage[i].login) {
+    //
+    //   }
+    // }
+    // if () {
+    //
+    // }
+
+  });
+  db.close((err) =>{
+    if(err)
+      return console.error(err.message);
+  });
+//  return(Datamessage);
+return(CheckVar);
+}
+
 //Чтение данных сообщения из БД
 function readMessage(){
 
